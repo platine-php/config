@@ -1,5 +1,5 @@
 ## PLATINE CONFIG
-**Platine Config is the library used to manage the application configuration based on differents loaders**
+**Platine Config is the library used to manage the application configuration using differents loaders**
 
 [![Project Status](http://opensource.box.com/badges/active.svg)](http://opensource.box.com/badges)
 [![Latest Stable Version](https://poser.pugx.org/platine-php/config/v)](https://packagist.org/packages/platine-php/config)

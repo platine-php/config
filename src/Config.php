@@ -4,7 +4,7 @@
  * Platine Config
  *
  * Platine Config is the library used to manage the application
- * configuration based on differents loaders
+ * configuration using differents loaders
  *
  * This content is released under the MIT License (MIT)
  *
