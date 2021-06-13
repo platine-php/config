@@ -6,7 +6,7 @@ namespace Platine\Test\Config;
 
 use Platine\Config\FileLoader;
 use org\bovigo\vfs\vfsStream;
-use Platine\PlatineTestCase;
+use Platine\Dev\PlatineTestCase;
 
 /**
  * FileLoader class tests
@@ -59,16 +59,6 @@ class FileLoaderTest extends PlatineTestCase
         $this->assertArrayHasKey('local', $items['db']);
         $this->assertArrayHasKey('host', $items['db']['local']);
         $this->assertEquals($items['db']['local']['host'], 'localhost');
-    }
-
-    public function testLoadNoReturnInConfigFile(): void
-    {
-        $path = $this->vfsFilesPath->url();
-        $file = $this->createVfsFile('app.php', $this->vfsFilesPath, '<?php ');
-        $fl = new FileLoader($path);
-
-        $items = $fl->load('', 'app');
-        $this->assertEmpty($items);
     }
 
     private function getDefaultConfigContent()

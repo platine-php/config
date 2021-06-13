@@ -110,34 +110,35 @@ class FileLoader implements LoaderInterface
     /**
      * Read the content for the given file
      * @param  string $file the file path to read
-     * @return array       the content of file in array
+     * @return array<string, mixed>       the content of file in array
      */
     protected function readFile(string $file): array
     {
-        /** @var array */
+        /** @var array<string, mixed> */
         $items = include $file;
-        return is_array($items) ? $items : [];
+        return $items;
     }
 
     /**
      * Split the environment at dots or slashes creating
-     * an array of namespaces to look through
+     * an array of name spaces to look through
      *
      * @param  string $env
-     * @return array
+     * @return array<int, string>
      */
     protected function parse(string $env): array
     {
-        $environments = array_filter(preg_split('/(\/|\.)/', $env));
+        $environments = array_filter((array)preg_split('/(\/|\.)/', $env));
         array_unshift($environments, '');
+
         return $environments;
     }
 
     /**
      * Merge two array items
-     * @param  array  $items1
-     * @param  array  $items2
-     * @return array
+     * @param  array<string, mixed>  $items1
+     * @param  array<string, mixed>  $items2
+     * @return array<string, mixed>
      */
     protected function merge(array $items1, array $items2): array
     {

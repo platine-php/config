@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Platine\Test\Config;
 
-use Platine\Config\FileLoader;
-use Platine\Config\Config;
 use org\bovigo\vfs\vfsStream;
-use Platine\PlatineTestCase;
+use Platine\Config\Config;
+use Platine\Config\FileLoader;
+use Platine\Dev\PlatineTestCase;
 
 /**
  * Config class tests
@@ -193,46 +193,6 @@ class ConfigTest extends PlatineTestCase
 
         $c['app.name'] = 'baz';
         $this->assertEquals('baz', $c->get('app.name'));
-    }
-
-    public function testSetValue(): void
-    {
-        $path = $this->vfsFilesPath->url();
-        $fl = new FileLoader($path);
-
-        $env = '';
-
-        $content = $this->getDefaultConfigContent();
-        $file = $this->createVfsFile('application.php', $this->vfsFilesPath, $content);
-        $c = new Config($fl, $env);
-
-        $items = array('name' => 'foo');
-
-        //key is null
-        $result = $this->runPrivateProtectedMethod($c, 'setValue', array(&$items, null, []));
-        $this->assertEmpty($result);
-
-        //key is not null
-        $result = $this->runPrivateProtectedMethod($c, 'setValue', array(&$items, 'address.name', 'Bangui'));
-        $this->assertIsArray($result);
-    }
-
-    public function testGetValueWhenItemIsNull(): void
-    {
-        $path = $this->vfsFilesPath->url();
-        $fl = new FileLoader($path);
-
-        $env = '';
-
-        $content = $this->getDefaultConfigContent();
-        $file = $this->createVfsFile('application.php', $this->vfsFilesPath, $content);
-        $c = new Config($fl, $env);
-
-        $items = array('name' => 'foo');
-
-        //key is null
-        $result = $this->runPrivateProtectedMethod($c, 'getValue', array($items, null, null));
-        $this->assertEquals($result, $items);
     }
 
     private function getDefaultConfigContent()

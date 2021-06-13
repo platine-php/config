@@ -52,9 +52,10 @@ interface LoaderInterface
 
     /**
      * Load the configuration group for the given environment
-     * @param  string $environment   the name of the environment like "dev", "prod", etc
+     * @param  string $environment   the name of the environment
+     * like "dev", "prod", etc
      * @param  string $group the group name to load
-     * @return array        the loaded configuration items
+     * @return array<string, mixed>        the loaded configuration items
      */
     public function load(string $environment, string $group): array;
 }

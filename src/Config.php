@@ -47,11 +47,20 @@ declare(strict_types=1);
 
 namespace Platine\Config;
 
-class Config implements \ArrayAccess
+use ArrayAccess;
+use Platine\Stdlib\Helper\Arr;
+
+/**
+ * Class Config
+ * @package Platine\Config
+ * @template T
+ * @implements ArrayAccess<string, mixed>
+ */
+class Config implements ArrayAccess
 {
 
     /**
-     * The config loader to use
+     * The configuration loader to use
      * @var LoaderInterface
      */
     protected LoaderInterface $loader;
@@ -64,7 +73,7 @@ class Config implements \ArrayAccess
 
     /**
      * The config items loaded
-     * @var array
+     * @var array<string, mixed>
      */
     protected array $items = [];
 
@@ -86,7 +95,7 @@ class Config implements \ArrayAccess
      */
     public function has(string $key): bool
     {
-        return $this->get($key) !== null;
+        return $this->get($key, $this) !== $this;
     }
 
     /**
@@ -97,10 +106,10 @@ class Config implements \ArrayAccess
      */
     public function get(string $key, $default = null)
     {
-        list($group, $item) = $this->parseKey($key);
+        list($group, ) = $this->parseKey($key);
         $this->load($group);
 
-        return $this->getValue($this->items, $key, $default);
+        return Arr::get($this->items, $key, $default);
     }
 
     /**
@@ -121,13 +130,13 @@ class Config implements \ArrayAccess
         if (is_null($item)) {
             $this->items[$group] = $value;
         } else {
-            $this->setValue($this->items[$group], $item, $value);
+            Arr::set($this->items[$group], $item, $value);
         }
     }
 
     /**
      * Return all the configuration items
-     * @return array
+     * @return array<string, mixed>
      */
     public function getItems(): array
     {
@@ -147,11 +156,12 @@ class Config implements \ArrayAccess
      * Set the configuration environment
      *
      * @param string $env
-     * @return Config
+     * @return $this
      */
     public function setEnvironment(string $env): self
     {
         $this->env = $env;
+
         return $this;
     }
 
@@ -168,11 +178,12 @@ class Config implements \ArrayAccess
      * Set the configuration loader
      *
      * @param LoaderInterface $loader
-     * @return Config
+     * @return $this
      */
     public function setLoader(LoaderInterface $loader): self
     {
         $this->loader = $loader;
+
         return $this;
     }
 
@@ -193,7 +204,10 @@ class Config implements \ArrayAccess
     }
 
     /**
-     * {@inheritdoc}
+     *
+     * @param string $key
+     * @param mixed $value
+     * @return void
      */
     public function offsetSet($key, $value)
     {
@@ -231,7 +245,7 @@ class Config implements \ArrayAccess
     /**
      * Parse the configuration key
      * @param  string $key the name of the key
-     * @return array
+     * @return array<int, mixed>
      */
     protected function parseKey(string $key): array
     {
@@ -239,67 +253,5 @@ class Config implements \ArrayAccess
             return [$key, null];
         }
         return [substr($key, 0, $pos), substr($key, $pos + 1)];
-    }
-
-    /**
-     * Get an item value using "dot" notation.
-     * @param  array  $items
-     * @param  string $key
-     * @param  mixed $default
-     * @return mixed
-     */
-    protected function getValue(array $items, ?string $key, $default)
-    {
-        if (is_null($key)) {
-            return $items;
-        }
-
-        if (array_key_exists($key, $items)) {
-            return $items[$key];
-        }
-
-        foreach (explode('.', $key) as $name) {
-            if (!is_array($items) || !array_key_exists($name, $items)) {
-                return $default;
-            }
-            /** @var mixed */
-            $items = $items[$name];
-        }
-
-        return $items;
-    }
-
-    /**
-     * Set an item to a given value using "dot" notation.
-     *
-     * If no key is given to the method, the entire array will be replaced.
-     * @param  array  $items
-     * @param  string $key
-     * @param  mixed $value
-     * @return array
-     */
-    protected function setValue(array &$items, ?string $key, $value): array
-    {
-        if (is_null($key)) {
-            return $items = $value;
-        }
-
-        $keys = explode('.', $key);
-
-        while (count($keys) > 1) {
-            $key = array_shift($keys);
-
-            // If the key doesn't exist at this depth, we will just create an empty array
-            // to hold the next value, allowing us to create the arrays to hold final
-            // values at the correct depth. Then we'll keep digging into the array.
-            if (!array_key_exists($key, $items) || !is_array($items[$key])) {
-                $items[$key] = [];
-            }
-            $items = & $items[$key];
-        }
-
-        $items[array_shift($keys)] = $value;
-
-        return $items;
     }
 }
