@@ -23,11 +23,13 @@ jobs:
         uses: borales/actions-yarn@v3.0.0
         with:
           cmd: install
+          dir: docs
 
       - name: Build Packages
         uses: borales/actions-yarn@v3.0.0
         with:
           cmd: build
+          dir: docs
 
       - name: Sync files
         uses: SamKirkland/FTP-Deploy-Action@4.3.0
