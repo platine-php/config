@@ -1,0 +1,40 @@
+on:
+  push:
+    branches:
+      - develop
+name: Deploy frontend app on push (Dev)
+defaults:
+  run:
+    working-directory: docs
+jobs:
+  web-deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get latest code
+        uses: actions/checkout@v2
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 14
+
+      - name: Setup Yarn
+        uses: borales/actions-yarn@v3.0.0
+        with:
+          cmd: install
+
+      - name: Build Packages
+        uses: borales/actions-yarn@v3.0.0
+        with:
+          cmd: build
+
+      - name: Sync files
+        uses: SamKirkland/FTP-Deploy-Action@4.3.0
+        with:
+          server: ${{ secrets.ftp_host }}
+          username: ${{ secrets.ftp_username }}
+          password: ${{ secrets.ftp_password }}
+          local-dir: dist/
+          server-dir: ${{ vars.DOCS_WWW }}
+          state-name: ../.ftp-deploy-sync-state.json

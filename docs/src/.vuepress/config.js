@@ -22,16 +22,18 @@ module.exports = {
   ],
 
   host: 'localhost',
-
+  
+  dest: 'dist',
+    
   /**
    * Theme configuration, here is the default theme configuration for VuePress.
    *
    * ref：https://v1.vuepress.vuejs.org/theme/default-theme-config.html
    */
   themeConfig: {
-    repo: 'platine-php/config-docs',
+    repo: 'platine-php/config',
     editLinks: true,
-    docsDir: 'src',
+    docsDir: 'docs/src',
     repoLabel: 'Github',
     editLinkText: '',
     lastUpdated: 'Last Updated',
