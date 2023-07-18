@@ -17,7 +17,6 @@ use Platine\Dev\PlatineTestCase;
  */
 class ConfigTest extends PlatineTestCase
 {
-
     protected $vfsRoot;
     protected $vfsFilesPath;
 
