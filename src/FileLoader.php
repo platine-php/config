@@ -50,7 +50,6 @@ namespace Platine\Config;
 
 class FileLoader implements LoaderInterface
 {
-
     /**
      * The application base path to use for
      * configuration scanning

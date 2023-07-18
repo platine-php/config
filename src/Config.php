@@ -58,7 +58,6 @@ use Platine\Stdlib\Helper\Arr;
  */
 class Config implements ArrayAccess
 {
-
     /**
      * The configuration loader to use
      * @var LoaderInterface

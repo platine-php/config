@@ -49,7 +49,6 @@ namespace Platine\Config;
 
 interface LoaderInterface
 {
-
     /**
      * Load the configuration group for the given environment
      * @param  string $environment   the name of the environment

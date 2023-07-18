@@ -16,7 +16,6 @@ use Platine\Dev\PlatineTestCase;
  */
 class FileLoaderTest extends PlatineTestCase
 {
-
     protected $vfsRoot;
     protected $vfsFilesPath;
 
