@@ -26,4 +26,4 @@ composer require platine-php/config
 MIT License See [LICENSE.MD](LICENSE.MD)
 
 ### Resources
-- [Documentation](https://docs.platine-php.com) 
+- [Documentation](https://docs.platine-php.com/packages/config) 
