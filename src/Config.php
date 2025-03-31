@@ -65,13 +65,13 @@ class Config implements ArrayAccess
     protected LoaderInterface $loader;
 
     /**
-     * The config environment to use
+     * The configuration environment to use
      * @var string
      */
     protected string $env;
 
     /**
-     * The config items loaded
+     * The configuration items loaded
      * @var array<string, mixed>
      */
     protected array $items = [];
@@ -99,11 +99,11 @@ class Config implements ArrayAccess
 
     /**
      * Return the configuration value for the given key
-     * @param  string $key     the name of the config item
-     * @param  mixed $default the default value if can not find the config item
+     * @param  string $key the name of the configuration item
+     * @param  mixed $default the default value if can not find the configuration item
      * @return mixed
      */
-    public function get(string $key, $default = null)
+    public function get(string $key, mixed $default = null): mixed
     {
         list($group, ) = $this->parseKey($key);
         $this->load($group);
@@ -113,11 +113,11 @@ class Config implements ArrayAccess
 
     /**
      * Set the configuration value for the given key
-     * @param  string $key     the name of the config item
+     * @param  string $key the name of the configuration item
      * @param  mixed $value the configuration value
      * @return void
      */
-    public function set(string $key, $value): void
+    public function set(string $key, mixed $value): void
     {
         list($group, $item) = $this->parseKey($key);
 
